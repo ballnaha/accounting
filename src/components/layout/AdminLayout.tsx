@@ -51,10 +51,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           width: { sm: `calc(100% - ${currentDrawerWidth}px)` },
           minHeight: '100vh',
           backgroundColor: 'background.default',
-          transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           marginLeft: { sm: 0 },
-          transform: 'translateZ(0)', // ใช้ hardware acceleration
-          willChange: 'width, margin-left', // optimize performance
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
+          perspective: 1000,
+          WebkitFontSmoothing: 'antialiased',
+          position: 'relative',
         }}
       >
         <Toolbar />

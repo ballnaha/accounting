@@ -35,6 +35,7 @@ import {
   CreditCard,
   Bell,
   Shield,
+  Upload,
 } from 'lucide-react';
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
@@ -80,7 +81,15 @@ const menuGroups: MenuGroup[] = [
         icon: Package, 
         path: '/data',
         submenu: [
-          { text: 'ข้อมูลบุคลากร', icon: Users, path: '/data/personnel' },
+          { 
+            text: 'ข้อมูลบุคลากรตำรวจ', 
+            icon: Users, 
+            path: '/personnel',
+            submenu: [
+              { text: 'รายการบุคลากร', icon: Users, path: '/personnel' },
+              { text: 'นำเข้าข้อมูล', icon: Upload, path: '/personnel/import' }
+            ]
+          },
           { text: 'ข้อมูลอุปกรณ์', icon: Package, path: '/data/equipment' },
           { text: 'ข้อมูลยานพาหนะ', icon: Truck, path: '/data/vehicles' }
         ]
@@ -205,9 +214,10 @@ export default function Sidebar({
               minWidth: 0,
               mr: isCollapsed ? 'auto' : 1.5,
               justifyContent: 'center',
-              transition: 'margin-right 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: 'translateZ(0)',
               '&:hover': {
-                transform: 'scale(1.1)',
+                transform: 'scale(1.1) translateZ(0)',
               },
             }}
           >
@@ -222,10 +232,11 @@ export default function Sidebar({
               alignItems: 'center',
               flex: 1,
               opacity: isCollapsed ? 0 : 1,
-              transform: isCollapsed ? 'translateX(-20px)' : 'translateX(0)',
-              transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: isCollapsed ? 'translateX(-10px) translateZ(0)' : 'translateX(0) translateZ(0)',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               overflow: 'hidden',
               width: isCollapsed ? 0 : 'auto',
+              backfaceVisibility: 'hidden',
             }}
           >
             <ListItemText 
@@ -279,7 +290,7 @@ export default function Sidebar({
         {hasSubmenu && (
           <Collapse 
             in={isExpanded && !(isCollapsed && !isMobile)} 
-            timeout={600}
+            timeout={400}
             easing={{
               enter: 'cubic-bezier(0.4, 0, 0.2, 1)',
               exit: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -339,7 +350,7 @@ export default function Sidebar({
           justifyContent: (desktopCollapsed && !isMobile) ? 'center' : 'flex-start',
           width: '100%',
           height: '100%',
-          transition: 'gap 0.6s cubic-bezier(0.4, 0, 0.2, 1), justify-content 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         }}>
           {/* Logo Icon */}
           <Box
@@ -365,10 +376,11 @@ export default function Sidebar({
           <Box
             sx={{
               opacity: (desktopCollapsed && !isMobile) ? 0 : 1,
-              transform: (desktopCollapsed && !isMobile) ? 'translateX(-20px)' : 'translateX(0)',
-              transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: (desktopCollapsed && !isMobile) ? 'translateX(-10px) translateZ(0)' : 'translateX(0) translateZ(0)',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               overflow: 'hidden',
               width: (desktopCollapsed && !isMobile) ? 0 : 'auto',
+              backfaceVisibility: 'hidden',
             }}
           >
             <Typography 
@@ -426,10 +438,11 @@ export default function Sidebar({
                 mb: 0.5, 
                 mt: group.label === 'MAIN' ? 0 : 2,
                 opacity: (desktopCollapsed && !isMobile) ? 0 : 1,
-                transform: (desktopCollapsed && !isMobile) ? 'translateX(-20px)' : 'translateX(0)',
-                transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                transform: (desktopCollapsed && !isMobile) ? 'translateX(-10px) translateZ(0)' : 'translateX(0) translateZ(0)',
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 overflow: 'hidden',
                 height: (desktopCollapsed && !isMobile) ? 0 : 'auto',
+                backfaceVisibility: 'hidden',
               }}
             >
               <Typography 
@@ -612,10 +625,14 @@ export default function Sidebar({
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: desktopCollapsed ? collapsedWidth : drawerWidth,
-            transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             borderRadius: 0,
             overflowX: 'hidden',
             backgroundColor: 'rgb(44,44,44)',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+            perspective: 1000,
+            WebkitFontSmoothing: 'antialiased',
             // Custom scrollbar for desktop
             '&::-webkit-scrollbar': {
               width: '6px',

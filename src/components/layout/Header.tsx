@@ -86,9 +86,11 @@ export default function Header({
       sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
-        transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-        transform: 'translateZ(0)', // hardware acceleration
-        willChange: 'width, margin-left', // optimize performance
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        perspective: 1000,
+        WebkitFontSmoothing: 'antialiased',
         bgcolor: '#ffffff',
         borderBottom: '1px solid #e2e8f0',
         boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
