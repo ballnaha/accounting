@@ -143,7 +143,7 @@ export default function ProfessionalDashboard() {
             mb: 1 
           }}
         >
-          แดชบอร์ดระบบจัดการบัญชี
+          แดชบอร์ด
         </Typography>
         <Typography 
           variant="body1" 

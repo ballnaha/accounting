@@ -5,7 +5,7 @@ export const appConfig = {
   
   // Other app configurations can be added here
   app: {
-    name: "ระบบบัญชี",
+    name: "ระบบบริหารจัดการตำแหน่ง",
     version: "1.0.0"
   }
 }

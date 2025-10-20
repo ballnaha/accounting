@@ -13,7 +13,7 @@ const theme = createTheme({
     info: systemColors.info,
     success: systemColors.success,
     background: {
-      default: '#f8fafc',
+      default: '#f5f7fa', // Soft police background
       paper: '#ffffff',
     },
     text: {
@@ -21,7 +21,9 @@ const theme = createTheme({
       secondary: systemColors.neutral[600],
     },
     grey: systemColors.neutral,
-  },
+    // เพิ่มสีเฉพาะสำหรับ Police Theme
+    police: systemColors.police,
+  } as any,
   typography: {
     fontFamily: '"Sarabun", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     h1: {

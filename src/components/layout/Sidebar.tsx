@@ -16,6 +16,8 @@ import {
   IconButton,
   Chip,
   Collapse,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import {
   Home,
@@ -136,6 +138,8 @@ export default function Sidebar({
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleLogoutClick = () => {
     setLogoutDialogOpen(true);
@@ -152,17 +156,17 @@ export default function Sidebar({
     setLogoutDialogOpen(false);
   };
 
-  const toggleSubmenu = (menuText: string) => {
-    if (desktopCollapsed) return;
-    setExpandedMenus(prev => ({
-      ...prev,
-      [menuText]: !prev[menuText]
-    }));
-  };
-
-  const renderMenuItem = (item: MenuItem, level: number = 0) => {
+    const toggleSubmenu = (menuText: string) => {
+      // ใน mobile view ให้ submenu ทำงานได้ปกติ
+      if (desktopCollapsed && !isMobile) return;
+      setExpandedMenus(prev => ({
+        ...prev,
+        [menuText]: !prev[menuText]
+      }));
+    };  const renderMenuItem = (item: MenuItem, level: number = 0) => {
     const IconComponent = item.icon;
-    const isCollapsed = desktopCollapsed;
+    // ใน mobile view ไม่ต้องใช้ collapsed state
+    const isCollapsed = desktopCollapsed && !isMobile;
     const isActive = pathname === item.path;
     const hasSubmenu = item.submenu && item.submenu.length > 0;
     const isExpanded = expandedMenus[item.text];
@@ -189,7 +193,7 @@ export default function Sidebar({
             pl: isSubmenuItem ? 3 : (isCollapsed ? 1 : 1.5),
             backgroundColor: isActive ? '#1e40af' : 'transparent',
             borderRadius: isActive ? 1.5 : 0,
-            transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               backgroundColor: isActive ? '#1d4ed8' : 'rgba(59, 130, 246, 0.08)',
               borderRadius: 1.5,
@@ -197,11 +201,11 @@ export default function Sidebar({
           }}
         >
           <ListItemIcon 
-            sx={{ 
+            sx={{
               minWidth: 0,
-              mr: isCollapsed ? 0 : 1.5,
+              mr: isCollapsed ? 'auto' : 1.5,
               justifyContent: 'center',
-              transition: 'margin-right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              transition: 'margin-right 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
                 transform: 'scale(1.1)',
               },
@@ -218,8 +222,8 @@ export default function Sidebar({
               alignItems: 'center',
               flex: 1,
               opacity: isCollapsed ? 0 : 1,
-              transform: isCollapsed ? 'translateX(-10px)' : 'translateX(0)',
-              transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              transform: isCollapsed ? 'translateX(-20px)' : 'translateX(0)',
+              transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
               overflow: 'hidden',
               width: isCollapsed ? 0 : 'auto',
             }}
@@ -264,7 +268,7 @@ export default function Sidebar({
 
     return (
       <Box key={item.text}>
-        {isCollapsed ? (
+        {isCollapsed && !isMobile ? (
           <Tooltip title={item.text} placement="right">
             {listItem}
           </Tooltip>
@@ -274,9 +278,12 @@ export default function Sidebar({
         {/* Render submenu items */}
         {hasSubmenu && (
           <Collapse 
-            in={isExpanded && !isCollapsed} 
-            timeout={400}
-            easing="cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+            in={isExpanded && !(isCollapsed && !isMobile)} 
+            timeout={600}
+            easing={{
+              enter: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              exit: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
           >
             <List sx={{ 
               py: 0,
@@ -318,22 +325,50 @@ export default function Sidebar({
       scrollbarWidth: 'thin',
       scrollbarColor: '#6b7280 rgb(44,44,44)',
     }}>
-      <Toolbar sx={{ px: 2, minHeight: 70 }}>
+      <Toolbar sx={{ 
+        px: 2, 
+        minHeight: '70px !important',
+        height: 70,
+        display: 'flex',
+        alignItems: 'center',
+      }}>
         <Box sx={{ 
           display: 'flex', 
           alignItems: 'center', 
-          gap: desktopCollapsed ? 0 : 1.5,
-          justifyContent: desktopCollapsed ? 'center' : 'flex-start',
+          gap: (desktopCollapsed && !isMobile) ? 0 : 1.5,
+          justifyContent: (desktopCollapsed && !isMobile) ? 'center' : 'flex-start',
           width: '100%',
-          transition: 'gap 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), justify-content 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          height: '100%',
+          transition: 'gap 0.6s cubic-bezier(0.4, 0, 0.2, 1), justify-content 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
         }}>
+          {/* Logo Icon */}
           <Box
             sx={{
-              opacity: desktopCollapsed ? 0 : 1,
-              transform: desktopCollapsed ? 'translateX(-10px)' : 'translateX(0)',
-              transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 40,
+              height: 40,
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
+              color: '#ffffff',
+              fontSize: '1.2rem',
+              fontWeight: 700,
+              flexShrink: 0,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+          >
+            P
+          </Box>
+          
+          {/* Logo Text */}
+          <Box
+            sx={{
+              opacity: (desktopCollapsed && !isMobile) ? 0 : 1,
+              transform: (desktopCollapsed && !isMobile) ? 'translateX(-20px)' : 'translateX(0)',
+              transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
               overflow: 'hidden',
-              width: desktopCollapsed ? 0 : 'auto',
+              width: (desktopCollapsed && !isMobile) ? 0 : 'auto',
             }}
           >
             <Typography 
@@ -343,11 +378,12 @@ export default function Sidebar({
               sx={{ 
                 color: '#fff',
                 fontWeight: 700,
-                fontSize: '1rem',
+                fontSize: '1.1rem',
                 whiteSpace: 'nowrap',
+                fontFamily: 'Sarabun',
               }}
             >
-              ระบบการจัดการบัญชี
+              Police Position
             </Typography>
           </Box>
         </Box>
@@ -389,11 +425,11 @@ export default function Sidebar({
                 px: 1.5, 
                 mb: 0.5, 
                 mt: group.label === 'MAIN' ? 0 : 2,
-                opacity: desktopCollapsed ? 0 : 1,
-                transform: desktopCollapsed ? 'translateX(-10px)' : 'translateX(0)',
-                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                opacity: (desktopCollapsed && !isMobile) ? 0 : 1,
+                transform: (desktopCollapsed && !isMobile) ? 'translateX(-20px)' : 'translateX(0)',
+                transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
                 overflow: 'hidden',
-                height: desktopCollapsed ? 0 : 'auto',
+                height: (desktopCollapsed && !isMobile) ? 0 : 'auto',
               }}
             >
               <Typography 
@@ -435,7 +471,7 @@ export default function Sidebar({
         <Divider sx={{ mb: 1, borderColor: '#374151' }} />
         
         {/* Logout Button */}
-        {desktopCollapsed ? (
+        {(desktopCollapsed && !isMobile) ? (
           <Tooltip title="Logout" placement="right">
             <ListItem disablePadding>
               <ListItemButton
@@ -534,6 +570,10 @@ export default function Sidebar({
         ModalProps={{
           keepMounted: true,
         }}
+        transitionDuration={{
+          enter: 400,
+          exit: 300,
+        }}
         sx={{
           display: { xs: 'block', sm: 'none' },
           '& .MuiDrawer-paper': {
@@ -572,7 +612,7 @@ export default function Sidebar({
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: desktopCollapsed ? collapsedWidth : drawerWidth,
-            transition: 'width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
             borderRadius: 0,
             overflowX: 'hidden',
             backgroundColor: 'rgb(44,44,44)',

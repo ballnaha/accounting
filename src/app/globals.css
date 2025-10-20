@@ -4,6 +4,50 @@
   --background: #ffffff;
   --foreground: #171717;
   --font-sarabun: 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Police Theme Colors */
+  --police-primary: #1976d2;
+  --police-primary-light: #42a5f5;
+  --police-primary-dark: #1565c0;
+  --police-secondary: #f57c00;
+  --police-success: #2e7d32;
+  --police-error: #d32f2f;
+  --police-warning: #f57c00;
+  --police-info: #0288d1;
+  
+  /* Isometric Colors */
+  --iso-light: #ffffff;
+  --iso-medium: #f8fafc;
+  --iso-dark: #e2e8f0;
+  --iso-accent: #1976d2;
+  
+  /* Building Colors */
+  --building-main: #e3f2fd;
+  --building-roof: #1976d2;
+  --building-windows: #42a5f5;
+  --building-door: #1565c0;
+  --building-shadow: #bbdefb;
+  
+  /* Character Colors */
+  --char-uniform: #1565c0;
+  --char-hat: #0d47a1;
+  --char-badge: #ffd54f;
+  --char-skin: #ffccbc;
+  --char-equipment: #37474f;
+  
+  /* Vehicle Colors */
+  --vehicle-police: #1976d2;
+  --vehicle-emergency: #f44336;
+  --vehicle-windows: #81d4fa;
+  --vehicle-tires: #424242;
+  --vehicle-chrome: #eceff1;
+  
+  /* Interface Colors */
+  --ui-screen: #e8eaf6;
+  --ui-button: #3f51b5;
+  --ui-text: #1a237e;
+  --ui-border: #c5cae9;
+  --ui-highlight: #ff5722;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,18 +57,24 @@
   }
 }
 
-html,
-body {
+html {
+  scroll-behavior: smooth;
   max-width: 100vw;
   overflow-x: hidden;
 }
 
 body {
+  max-width: 100vw;
+  overflow-x: hidden;
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-sarabun);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* เพิ่ม smooth scrolling และ hardware acceleration */
+  scroll-behavior: smooth;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 * {
@@ -54,6 +104,44 @@ textarea::placeholder {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Smooth transitions for all elements */
+*,
+*::before,
+*::after {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced scroll behavior */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Performance optimizations */
+.MuiDrawer-paper,
+.MuiAppBar-root,
+main {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform, width, margin-left;
+  backface-visibility: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

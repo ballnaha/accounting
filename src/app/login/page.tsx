@@ -243,11 +243,11 @@ export default function LoginPage() {
   return (
     <Box
       sx={{
-        ...sketchBackgroundStyle,
         display: "flex",
         position: "relative",
+        minHeight: "100vh",
+        background: "#ffffff",
         overflow: "hidden",
-       
       }}
     >
       {/* Left side - Background Image */}
@@ -257,7 +257,7 @@ export default function LoginPage() {
           display: { xs: "none", md: "flex" },
           alignItems: "center",
           justifyContent: "center",
-          backgroundImage: "url('/images/bg_login.webp')",
+          backgroundImage: "url('/images/bg_login_1.png')",
           backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -284,10 +284,14 @@ export default function LoginPage() {
             elevation={0}
             sx={{
               p: 4,
-              ...sketchPaperStyle,
               maxWidth: 400,
               mx: "auto",
-              position: "relative"
+              position: "relative",
+              borderRadius: "16px",
+              background: "rgba(255, 255, 255, 0.95)",
+              backdropFilter: "blur(10px)",
+              boxShadow: "0 8px 32px rgba(31, 38, 135, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.18)",
             }}
           >
             <Box textAlign="center" mb={3}>
@@ -295,18 +299,40 @@ export default function LoginPage() {
                 variant="h5"
                 component="h1"
                 gutterBottom
-                sx={sketchTitleStyle}
+                sx={{
+                  fontFamily: "Sarabun",
+                  fontWeight: 700,
+                  color: "#1565c0",
+                  background: "linear-gradient(135deg, #1976d2, #1565c0)",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textShadow: "0 2px 4px rgba(21, 101, 192, 0.1)",
+                }}
               >
                 {appConfig.app.name}
               </Typography>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 4,
+                  backgroundColor: "#1976d2",
+                  borderRadius: 2,
+                  mx: "auto",
+                  mb: 2,
+                  background: "linear-gradient(90deg, #1976d2, #42a5f5)",
+                }}
+              />
             </Box>
 
             {/* Tabs for Login/Register - Sketch Style */}
             {appConfig.enableRegistration ? (
               <Box sx={{ 
-                borderBottom: "2px solid #333", 
+                borderBottom: "2px solid rgba(25, 118, 210, 0.1)", 
                 mb: 3,
-                position: "relative"
+                position: "relative",
+                background: "rgba(25, 118, 210, 0.02)",
+                borderRadius: "8px 8px 0 0",
               }}>
                 <Tabs 
                   value={mode} 
@@ -318,14 +344,19 @@ export default function LoginPage() {
                       fontSize: "1rem",
                       textTransform: "none",
                       fontWeight: 600,
-                      color: "#666",
+                      color: "#64748b",
                       margin: "0 4px",
                       transition: "all 0.3s ease",
-                      
+                      borderRadius: "8px 8px 0 0",
+                      "&.Mui-selected": {
+                        color: "#1976d2",
+                        fontWeight: 700,
+                      }
                     },
                     "& .MuiTabs-indicator": {
-                      backgroundColor: systemColors.primary.main,
-                      height: 3
+                      backgroundColor: "#1976d2",
+                      height: 3,
+                      borderRadius: "3px 3px 0 0",
                     }
                   }}
                 >
@@ -336,15 +367,16 @@ export default function LoginPage() {
             ) : (
               <Box textAlign="center" mb={3}>
                 <Typography
-                  variant="body2"
+                  variant="body1"
                   sx={{ 
                     fontFamily: "Sarabun",
-                    color: "#666",
-                    fontSize: "1.2rem",
-                    fontWeight: 600
+                    color: "#475569",
+                    fontSize: "1.1rem",
+                    fontWeight: 500,
+                    px: 2,
                   }}
                 >
-                  Accounting System
+                  เข้าสู่ระบบ
                 </Typography>
               </Box>
             )}
@@ -373,12 +405,52 @@ export default function LoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Person sx={getSketchIconStyle(fieldErrors.username, systemColors.error.main)} />
+                        <Person sx={{
+                          color: fieldErrors.username ? systemColors.error.main : "#64748b",
+                          transition: "color 0.3s ease",
+                        }} />
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={sketchTextFieldStyle}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 2,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <TextField
@@ -406,15 +478,59 @@ export default function LoginPage() {
                           aria-label="toggle password visibility"
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
-                          sx={sketchIconButtonStyle}
+                          sx={{
+                            color: "#64748b",
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              background: 'rgba(25, 118, 210, 0.04)',
+                              color: "#1976d2",
+                            },
+                          }}
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={sketchTextFieldStyle}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <Button
@@ -423,9 +539,34 @@ export default function LoginPage() {
                   variant="contained"
                   disabled={isLoading}
                   sx={{
-                    ...sketchButtonStyle('#FFC107'),
+                    py: 1.5,
+                    px: 4,
+                    fontSize: '1rem',
+                    fontFamily: 'Sarabun',
+                    fontWeight: 600,
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
+                    color: '#FFFFFF',
+                    textTransform: 'none',
+                    boxShadow: '0 4px 12px rgba(25, 118, 210, 0.3)',
+                    transition: 'all 0.3s ease',
                     mb: 2,
-                    mt: 1
+                    mt: 1,
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #1565c0 0%, #1976d2 100%)',
+                      boxShadow: '0 6px 16px rgba(25, 118, 210, 0.4)',
+                      transform: 'translateY(-1px)',
+                    },
+                    '&:active': {
+                      transform: 'translateY(0px)',
+                      boxShadow: '0 2px 8px rgba(25, 118, 210, 0.3)',
+                    },
+                    '&:disabled': {
+                      background: 'rgba(0, 0, 0, 0.12)',
+                      color: 'rgba(0, 0, 0, 0.26)',
+                      boxShadow: 'none',
+                      transform: 'none',
+                    },
                   }}
                 >
                   {isLoading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
@@ -457,12 +598,52 @@ export default function LoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Badge sx={getSketchIconStyle(fieldErrors.name, systemColors.error.main)} />
+                        <Badge sx={{
+                          color: fieldErrors.name ? systemColors.error.main : "#64748b",
+                          transition: "color 0.3s ease",
+                        }} />
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={sketchTextFieldStyle}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 1.5,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <TextField
@@ -485,12 +666,52 @@ export default function LoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Person sx={getSketchIconStyle(fieldErrors.username, systemColors.error.main)} />
+                        <Person sx={{
+                          color: fieldErrors.username ? systemColors.error.main : "#64748b",
+                          transition: "color 0.3s ease",
+                        }} />
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={sketchTextFieldStyle}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 1.5,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <TextField
@@ -513,12 +734,52 @@ export default function LoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Email sx={getSketchIconStyle(fieldErrors.email, systemColors.error.main)} />
+                        <Email sx={{
+                          color: fieldErrors.email ? systemColors.error.main : "#64748b",
+                          transition: "color 0.3s ease",
+                        }} />
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={sketchTextFieldStyle}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 1.5,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <TextField
@@ -546,15 +807,59 @@ export default function LoginPage() {
                           aria-label="toggle password visibility"
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
-                          sx={sketchIconButtonStyle}
+                          sx={{
+                            color: "#64748b",
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              background: 'rgba(25, 118, 210, 0.04)',
+                              color: "#1976d2",
+                            },
+                          }}
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={{ ...sketchTextFieldStyle, mb: 2 }}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 2,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <TextField
@@ -582,15 +887,59 @@ export default function LoginPage() {
                           aria-label="toggle confirm password visibility"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                           edge="end"
-                          sx={sketchIconButtonStyle}
+                          sx={{
+                            color: "#64748b",
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              background: 'rgba(25, 118, 210, 0.04)',
+                              color: "#1976d2",
+                            },
+                          }}
                         >
                           {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
-                  InputLabelProps={sketchInputLabelProps}
-                  sx={{ ...sketchTextFieldStyle, mb: 3 }}
+                  InputLabelProps={{
+                    sx: {
+                      fontFamily: 'Sarabun',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      color: "#64748b",
+                      '&.Mui-focused': {
+                        color: "#1976d2",
+                      },
+                      '&.MuiInputLabel-shrink': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        px: 0.5,
+                        borderRadius: '4px',
+                        transform: 'translate(14px, -9px) scale(1)',
+                      },
+                    },
+                  }}
+                  sx={{
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      fontSize: '1rem',
+                      fontFamily: 'Sarabun',
+                      background: "rgba(255, 255, 255, 0.8)",
+                      transition: "all 0.3s ease",
+                      '& fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.2)",
+                        borderWidth: "2px",
+                      },
+                      '&:hover fieldset': {
+                        borderColor: "rgba(25, 118, 210, 0.4)",
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: "#1976d2",
+                        borderWidth: "2px",
+                        boxShadow: "0 0 0 4px rgba(25, 118, 210, 0.1)",
+                      },
+                    },
+                  }}
                 />
 
                 <Button
@@ -599,8 +948,33 @@ export default function LoginPage() {
                   variant="contained"
                   disabled={isLoading}
                   sx={{
-                    ...sketchButtonStyle('#4CAF50'),
-                    mb: 3
+                    py: 1.5,
+                    px: 4,
+                    fontSize: '1rem',
+                    fontFamily: 'Sarabun',
+                    fontWeight: 600,
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)',
+                    color: '#FFFFFF',
+                    textTransform: 'none',
+                    boxShadow: '0 4px 12px rgba(76, 175, 80, 0.3)',
+                    transition: 'all 0.3s ease',
+                    mb: 3,
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #388E3C 0%, #4CAF50 100%)',
+                      boxShadow: '0 6px 16px rgba(76, 175, 80, 0.4)',
+                      transform: 'translateY(-1px)',
+                    },
+                    '&:active': {
+                      transform: 'translateY(0px)',
+                      boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
+                    },
+                    '&:disabled': {
+                      background: 'rgba(0, 0, 0, 0.12)',
+                      color: 'rgba(0, 0, 0, 0.26)',
+                      boxShadow: 'none',
+                      transform: 'none',
+                    },
                   }}
                 >
                   {isLoading ? "กำลังสมัครสมาชิก..." : "สมัครสมาชิก"}
@@ -613,12 +987,17 @@ export default function LoginPage() {
                   variant="caption"
                   sx={{
                     fontFamily: "Sarabun",
-                    color: "#999",
+                    color: "#64748b",
                     fontSize: "0.85rem",
-                    fontWeight: 500
+                    fontWeight: 500,
+                    background: "rgba(25, 118, 210, 0.02)",
+                    py: 0.5,
+                    px: 1.5,
+                    borderRadius: "6px",
+                    border: "1px solid rgba(25, 118, 210, 0.1)"
                   }}
                 >
-                  © 2025 Accounting System
+                  © 2025 Police Position Management System
                 </Typography>
               </Box>
 

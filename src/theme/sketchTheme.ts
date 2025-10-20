@@ -5,23 +5,31 @@
 
 import { SxProps, Theme } from '@mui/material';
 
-// สีหลักสำหรับ Material Design Theme
+// สีหลักสำหรับ Police Theme - Modern Isometric Style
 export const sketchColors = {
-  primary: '#1976d2',
+  primary: '#1976d2',        // Police Blue
+  secondary: '#f57c00',      // Authority Orange
+  success: '#2e7d32',        // Safety Green
+  error: '#d32f2f',          // Emergency Red
+  warning: '#f57c00',        // Alert Orange
+  info: '#0288d1',           // Information Blue
   background: {
     main: '#ffffff',
-    hover: '#f5f5f5',
+    hover: '#f5f7fa',        // Soft police hover
+    isometric: '#e3f2fd',    // Isometric background
   },
   border: {
-    main: 'rgba(0, 0, 0, 0.23)',
-    error: '#f44336',
+    main: 'rgba(25, 118, 210, 0.23)',  // Police blue border
+    error: '#d32f2f',
+    focus: '#1976d2',
   },
   shadow: {
-    main: 'rgba(0,0,0,0.1)',
-    hover: 'rgba(0,0,0,0.12)',
-    focused: 'rgba(0,0,0,0.15)',
+    main: 'rgba(25, 118, 210, 0.1)',   // Police blue shadow
+    hover: 'rgba(25, 118, 210, 0.15)',
+    focused: 'rgba(25, 118, 210, 0.2)',
+    isometric: 'rgba(25, 118, 210, 0.08)',
   },
-  icon: '#666',
+  icon: '#64748b',           // Modern icon color
 };
 
 /**
@@ -76,14 +84,18 @@ export const sketchButtonStyle = (color: string = '#1976d2', size: 'small' | 'me
     return whiteTextColors.includes(bgColor) ? '#FFF' : '#333';
   };
 
-  // กำหนดสี hover ตามสีหลัก
+  // กำหนดสี hover ตามสีหลัก - Police Theme
   const getHoverColor = (bgColor: string) => {
     const hoverMap: { [key: string]: string } = {
-      '#FFC107': '#FFD54F',
-      '#4CAF50': '#66BB6A',
-      '#2196F3': '#42A5F5',
-      '#ef4444': '#f87171',
-      '#E0E0E0': '#BDBDBD',
+      '#1976d2': '#1565c0',  // Police blue hover
+      '#f57c00': '#ef6c00',  // Authority orange hover
+      '#2e7d32': '#1b5e20',  // Safety green hover
+      '#d32f2f': '#c62828',  // Emergency red hover
+      '#0288d1': '#0277bd',  // Info blue hover
+      '#4CAF50': '#66BB6A',  // Legacy green
+      '#2196F3': '#42A5F5',  // Legacy blue
+      '#ef4444': '#f87171',  // Legacy red
+      '#E0E0E0': '#BDBDBD',  // Neutral
     };
     return hoverMap[bgColor] || bgColor;
   };

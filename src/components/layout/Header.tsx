@@ -72,8 +72,6 @@ export default function Header({
     switch (role) {
       case 'admin':
         return 'ผู้ดูแลระบบ';
-      case 'hr':
-        return 'ฝ่ายบุคคล';
       case 'user':
         return 'ผู้ใช้งาน';
       default:
@@ -88,7 +86,9 @@ export default function Header({
       sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
-        transition: 'width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: 'translateZ(0)', // hardware acceleration
+        willChange: 'width, margin-left', // optimize performance
         bgcolor: '#ffffff',
         borderBottom: '1px solid #e2e8f0',
         boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
@@ -96,7 +96,14 @@ export default function Header({
         backdropFilter: 'blur(10px)',
       }}
     >
-      <Toolbar sx={{ px: { xs: 3, sm: 4 }, py: 1.5, minHeight: 70 }}>
+      <Toolbar sx={{ 
+        px: { xs: 3, sm: 4 }, 
+        py: 1.5, 
+        minHeight: '70px !important',
+        height: 70,
+        display: 'flex',
+        alignItems: 'center',
+      }}>
         {/* Mobile hamburger menu */}
         <IconButton
           color="inherit"
